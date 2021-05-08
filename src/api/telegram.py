@@ -23,7 +23,7 @@ class Telegram(Api):
         except Exception as e:
             raise Exception(f"Error due to setting telegram webhook -> {e}")
         else:
-            self.app.add_url_rule(self.webhook, 'telegram', self.receive_message, methods=["POST"])
+            self.app.add_url_rule('/telegram', 'telegram', self.receive_message, methods=["POST"])
     # def register(self):
     #     pass
 
