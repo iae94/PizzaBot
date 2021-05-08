@@ -43,15 +43,11 @@ if __name__ == '__main__':
             webhook=config['messengers']['telegram']['webhook'],
             app=bot.get_app()
         ),
-        # Vk(app=self.app),
-        # Facebook(app=self.app)
+        # Vk(app=bot.get_app()),
+        # Facebook(app=bot.get_app())
     ]
 
     for api in apis:
         api.register()
 
-    #apis[0].get_updates()
-
     bot.start(host=config['bot']['host'], port=os.environ.get("PORT", config['bot']['port']))
-
-

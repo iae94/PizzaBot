@@ -7,25 +7,23 @@ import json
 import time
 from threading import Thread, Lock
 
+
 class Telegram(Api):
-    def __init__(self, token: str, webhook: str, app: flask.Flask):
+    def __init__(self, token: str, api: str, webhook: str, app: flask.Flask):
         super().__init__(app)
         self.token = token
+        self.api = api
         self.webhook = webhook
-        self.telegram_url = f"https://api.telegram.org/bot{self.token}"
+        self.telegram_url = f"{self.api}{self.token}"
         self.clients = {}
-
-        self.offset = None
 
     def register(self):
         try:
             self.set_webhook()
         except Exception as e:
-            raise Exception(f"Error due to setting telegram webhook -> {e}")
+            self.logger.warning(f"Error due to setting telegram webhook -> {e}")
         else:
             self.app.add_url_rule('/telegram', 'telegram', self.receive_message, methods=["POST"])
-    # def register(self):
-    #     pass
 
     def send_message(self, chat_id, text):
         method = "sendMessage"
@@ -85,19 +83,14 @@ class Telegram(Api):
                 self.clients[chat_id] = Pizza(self)                     # Only pizza intent
             client_intent = self.clients.get(chat_id)
             client_intent.next(chat_id=chat_id, text=text)
-        x = 5
 
     def receive_message(self):
 
-        self.logger.info(f"webhook updates: {request.json}")
-        chat_id = request.json["message"]["chat"]["id"]
-        text = request.json["message"]["text"]
-        self.logger.info(f"webhook updates parsed: {chat_id} {text}")
-        self.message_handle(chat_id, text)
-        
-        # if chat_id not in self.clients:
-        #     self.clients[chat_id] = Pizza(self)                     # Only pizza intent
-        # client_intent = self.clients.get(chat_id)
-        # client_intent.next(request.text)
-
-        return {"ok": True}
+        self.logger.info(f"Get updates: {request.json}")
+        try:
+            chat_id = request.json["message"]["chat"]["id"]
+            text = request.json["message"]["text"]
+        except Exception as e:
+            self.logger.warning(f"Message skipped due to -> {e}")
+        else:
+            self.message_handle(chat_id, text)

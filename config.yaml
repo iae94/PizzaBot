@@ -4,6 +4,7 @@ bot:
 
 messengers:
   telegram:
-    token: 1816000616:AAEr-Wxh1VvdtbuS7mAelZ5G6lnqv3MzwbY
     name: t.me/pizza94bot
+    token: 1816000616:AAEr-Wxh1VvdtbuS7mAelZ5G6lnqv3MzwbY
+    api: https://api.telegram.org/bot
     webhook: https://pizza94bot.herokuapp.com/telegram
