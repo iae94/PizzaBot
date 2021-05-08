@@ -58,38 +58,6 @@ class Telegram(Api):
         else:
             raise Exception(f"Cannot set webhook -> {resp}")
 
-    def get_updates(self):
-
-        while True:
-
-            method = "getUpdates"
-            url = f"{self.telegram_url}/{method}"
-            params = {'offset': self.offset}
-            resp = requests.get(url, params=params)
-
-            resp_json = json.loads(resp.text)
-
-            handlers = []
-
-            if resp_json['result']:
-                for message in resp_json['result']:
-                    try:
-                        chat_id = message["message"]["chat"]["id"]
-                        text = message["message"]["text"]
-                        handlers.append(Thread(target=self.message_handle, args=(chat_id, text, )))
-                        self.logger.info(f"Chat id: {chat_id} text: {text}")
-                    except Exception as e:
-                        self.logger.warning(f"Message skipped due to -> {e}")
-
-                self.offset = resp_json['result'][-1]['update_id'] + 1
-
-                [h.start() for h in handlers]
-
-            else:
-                self.logger.info("No new messages")
-
-            time.sleep(1)
-
     def message_handle(self, chat_id, text):
         """
         Handling message from user
