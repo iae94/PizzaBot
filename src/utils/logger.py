@@ -1,9 +1,12 @@
-import logging, sys
+import logging
+import sys
 from src.utils import Singleton
 
 
 class Logger(metaclass=Singleton):
-
+    """
+    Simple stream logger
+    """
     def __init__(self):
 
         # Logger

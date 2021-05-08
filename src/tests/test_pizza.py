@@ -4,7 +4,9 @@ from src.intents.pizza import Pizza
 
 
 class TestPizza(unittest.TestCase):
-
+    """
+    Simple pizza cases test class
+    """
     def setUp(self) -> None:
         api = Mock()
         self.intent = Pizza(api)
@@ -14,6 +16,10 @@ class TestPizza(unittest.TestCase):
         }
 
     def test_dialog_positive(self):
+        """
+        Order confirm YES case
+        :return:
+        """
         self.intent.machine.set_state('ask_pizza_size')
         self.intent.next(chat_id='', text='хочу большую пиццу')
         self.assertEqual(self.intent.order['size'], 'большую')
@@ -27,6 +33,10 @@ class TestPizza(unittest.TestCase):
         self.assertEqual(self.intent.state, 'start')
 
     def test_dialog_negative(self):
+        """
+        Order confirm NO case
+        :return:
+        """
         self.intent.machine.set_state('ask_pizza_size')
         self.intent.next(chat_id='', text='хочу маленькую пиццу')
         self.assertEqual(self.intent.order['size'], 'маленькую')
@@ -40,6 +50,10 @@ class TestPizza(unittest.TestCase):
         self.assertEqual(self.intent.state, 'start')
 
     def test_dialog_exit(self):
+        """
+        Intent exit case
+        :return:
+        """
         self.intent.machine.set_state('ask_pizza_size')
         self.intent.next(chat_id='', text='хочу маленькую пиццу')
         self.assertEqual(self.intent.order['size'], 'маленькую')
@@ -49,6 +63,10 @@ class TestPizza(unittest.TestCase):
         self.assertEqual(self.intent.state, 'start')
 
     def test_sizes(self):
+        """
+        Different sizes case
+        :return:
+        """
         self.intent.machine.set_state('ask_pizza_size')
         self.intent.next(chat_id='', text='Большую')
         self.assertEqual(self.intent.order['size'], 'большую')
@@ -80,6 +98,10 @@ class TestPizza(unittest.TestCase):
         self.intent.order['size'] = None
 
     def test_payments(self):
+        """
+        Different payment methods case
+        :return:
+        """
         self.intent.machine.set_state('ask_payment_method')
         self.intent.next(chat_id='', text='Картой')
         self.assertEqual(self.intent.order['payment'], 'картой')

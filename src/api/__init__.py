@@ -3,8 +3,10 @@ from src.utils.logger import Logger
 
 
 class Api(ABC):
-    def __init__(self, app):
-        self.app = app
+    """
+    Abstract class for api
+    """
+    def __init__(self):
         self.logger = Logger().get()
 
     @abstractmethod
