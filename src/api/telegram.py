@@ -90,13 +90,14 @@ class Telegram(Api):
         try:
             chat_id = request.json["message"]["chat"]["id"]
         except KeyError as e:
-            self.logger.warning(f"Message skipped due to -> {e}")
+            self.logger.warning(f"Message skipped due to chat_id does not present")
         else:
             try:
                 text = request.json["message"]["text"]
             except KeyError as e:
                 self.send_message(chat_id, text="Я понимаю только текстовые сообщения!")
             else:
+                self.logger.info(f"Get message: chat_id: {chat_id} text: {text}")
                 self.message_handle(chat_id, text)
 
         return {'ok': True}
