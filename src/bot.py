@@ -52,6 +52,6 @@ if __name__ == '__main__':
 
     #apis[0].get_updates()
 
-    bot.start(host=config['bot']['host'], port=config['bot']['port'])
+    bot.start(host=config['bot']['host'], port=os.environ.get("PORT", config['bot']['port']))
 
 
