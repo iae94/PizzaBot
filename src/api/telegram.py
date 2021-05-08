@@ -94,3 +94,4 @@ class Telegram(Api):
             self.logger.warning(f"Message skipped due to -> {e}")
         else:
             self.message_handle(chat_id, text)
+        return {'ok': True}
