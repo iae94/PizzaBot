@@ -89,9 +89,14 @@ class Telegram(Api):
         self.logger.info(f"Get updates: {request.json}")
         try:
             chat_id = request.json["message"]["chat"]["id"]
-            text = request.json["message"]["text"]
-        except Exception as e:
+        except KeyError as e:
             self.logger.warning(f"Message skipped due to -> {e}")
         else:
-            self.message_handle(chat_id, text)
+            try:
+                text = request.json["message"]["text"]
+            except KeyError as e:
+                self.send_message(chat_id, text="Я понимаю только текстовые сообщения!")
+            else:
+                self.message_handle(chat_id, text)
+
         return {'ok': True}
