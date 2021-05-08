@@ -40,6 +40,7 @@ if __name__ == '__main__':
     apis = [
         Telegram(
             token=config['messengers']['telegram']['token'],
+            api=config['messengers']['telegram']['api'],
             webhook=config['messengers']['telegram']['webhook'],
             app=bot.get_app()
         ),
