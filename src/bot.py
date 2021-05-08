@@ -25,7 +25,7 @@ if __name__ == '__main__':
 
     # Parse arguments
     parser = argparse.ArgumentParser(description="pizza bot")
-    parser.add_argument('-c', '--config', type=str, action='store', help='bot config yaml file', default='../config.yaml')
+    parser.add_argument('-c', '--config', type=str, action='store', help='bot config yaml file', default='config.yaml')
     args = parser.parse_args()
     config = args.config
 
