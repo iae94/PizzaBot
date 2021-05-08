@@ -93,6 +93,8 @@ class Telegram(Api):
         chat_id = request.json["message"]["chat"]["id"]
         text = request.json["message"]["text"]
         self.logger.info(f"webhook updates parsed: {chat_id} {text}")
+        self.message_handle(chat_id, text)
+        
         # if chat_id not in self.clients:
         #     self.clients[chat_id] = Pizza(self)                     # Only pizza intent
         # client_intent = self.clients.get(chat_id)
